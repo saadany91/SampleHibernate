@@ -10,4 +10,6 @@ public interface Dao {
 
 	List<Student> getAll();
 
+	void update(Student s1);
+
 }

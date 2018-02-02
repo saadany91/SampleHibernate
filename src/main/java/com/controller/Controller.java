@@ -7,8 +7,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.models.Gender;
@@ -25,24 +27,18 @@ public class Controller<T> {
 	ServiceI service;
 		
 	
-	@RequestMapping("/")
-	public  ResponseEntity<String> add() {
+	@RequestMapping(method= RequestMethod.POST )
+	public  ResponseEntity<String> add(@RequestBody Student s) {
 		
 	
-		Student s1 = new Student();
-		s1.setLocation("florida");
-		s1.setMarks(3.0f);
-		s1.setRank(22);
-		s1.setSname("mohamed");
-		s1.setGender(Gender.MALE);
-		s1.setGenderChar(Gender.MALE.getType());
 		
-		service.add(s1);
+		service.add(s);
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	
-	@RequestMapping("/get")
+	
+	@GetMapping
 	public ResponseEntity<T> getStudents(){
 		
 		T body;

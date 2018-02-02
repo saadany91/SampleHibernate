@@ -3,10 +3,11 @@ package com.serviceImp;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.Dao;
 import com.models.Student;
@@ -22,9 +23,10 @@ public class ServiceImp implements ServiceI{
 
 
 	@Override
-	@Transactional
+	@Transactional(propagation= Propagation.REQUIRED)
 	public void add(Student s1) {
-		dao.add(s1);		
+		dao.add(s1);	
+		dao.update(s1);
 	}
 
 

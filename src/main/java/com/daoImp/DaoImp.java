@@ -22,6 +22,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.controller.Controller;
 import com.dao.Dao;
@@ -40,18 +42,14 @@ public class DaoImp implements Dao{
 	
 
 	@Override
+	@Transactional(propagation=Propagation.NESTED)
 	public void add(Student s1) {
 		
 		Session session = this.sessionFactory.openSession();
 		
-
-		//s1.setSname("mohamed");
-		//s1.setRank(18);
-		//s1.setLocation("ohio");
-		
 		session.save(s1);
 		session.flush();
-		session.clear();
+		session.close();
 		
 		////////////////////////HQL//////////////////////////
 		// will not work on inserting rows in db
@@ -73,6 +71,22 @@ public class DaoImp implements Dao{
 
 	}
 
+	@Transactional(propagation=Propagation.NESTED)
+	public void update(Student s) {
+		
+		Session session = this.sessionFactory.openSession();
+
+		
+		//Student s1= new Student(5, "here", "up", 33, 66);
+		
+		s.setSname("updated");
+		
+		session.update(s);
+		
+		session.flush();
+		session.close();	
+		
+	}
 
 	@Override
 	public List<Student> getAll() {
@@ -139,7 +153,7 @@ public class DaoImp implements Dao{
 	     //logger.info(student);
 		
 		
-		return l1;
+		return (List<Student>) session.createCriteria(Student.class).list();
 	}
 
 	

@@ -8,6 +8,7 @@ public interface ServiceI {
 
 
 	public void add(Student s1);
+	
 
 	public List<Student> getAll();
 
